@@ -15,7 +15,7 @@ const Home: NextPage = () => {
 
       <main>
         <h1 className='text-center text-2xl font-bold'>
-          Welcome to Node Graph!
+          Welcome to CODE Ord!
         </h1>
         <FocusGraph />
       </main>
