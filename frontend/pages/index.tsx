@@ -2,6 +2,7 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import FocusGraph from '../components/Graphs/GraphWrapper'
 //import styles from '../styles/Home.module.css'
+import axios from 'axios'
 
 
 const Home: NextPage = () => {

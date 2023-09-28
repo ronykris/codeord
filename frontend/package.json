@@ -11,6 +11,7 @@
   "dependencies": {
     "@fullhuman/postcss-purgecss": "^5.0.0",
     "autoprefixer": "^10.4.16",
+    "axios": "^1.5.1",
     "next": "13.5.3",
     "postcss": "^8.4.30",
     "postcss-normalize": "^10.0.1",
