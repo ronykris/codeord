@@ -47,3 +47,17 @@ export const insertBatch = async(inscriptionRecords: record[]) => {
         console.error(e)
     }
 }
+
+export const fetchAll = async(limit: number) => {
+    try {
+        await client.connect()
+        const db: Db = client.db(process.env.DB)
+        const collection = db.collection(process.env.COLLECTION!)
+        const documents = await collection.find({}).limit(limit).toArray()
+        return documents
+    } catch (e) { 
+        console.error(e)
+    } finally {
+        client.close()
+    }
+}

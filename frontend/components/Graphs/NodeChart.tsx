@@ -52,16 +52,24 @@ export default function FocusGraph() {
     );
 
     return (
+      <>      
         <ForceGraph3D
             ref={graphRef}
             graphData={data}
             nodeLabel="id"
             //backgroundColor={"rgba(0,0,0,0)"}
             nodeAutoColorBy="group"
-            //nodeColor={() => "red"}
-            //linkColor={() => "blue"}
+            nodeColor={() => "yellow"}
+            linkColor={() => "white"}   
+            showNavInfo={true}         
             onNodeClick={handleClick}
         />
+        <div className='text-center mt-10'>
+          <button className="bg-black text-yellow-500  p-4 rounded-lg w-40 mx-auto text-center text-xl">Load More            
+          </button>
+        </div>
+      </>
+        
     )
 }
 

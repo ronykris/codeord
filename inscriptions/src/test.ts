@@ -1,8 +1,8 @@
 import { ObjectId } from "mongodb"
-import { insertRecord, deleteRecord, insertBatch } from "./mongo"
+import { insertRecord, deleteRecord, insertBatch, fetchAll} from "./mongo"
 import { record } from "./interface"
-import { getInscriptionFields, getInscriptionRecordBatch, getInscriptions } from "./utils"
-import { async } from "promise-async";
+import { getInscriptionFields, getInscriptionRecordBatch, getInscriptions, buildNodeGraph } from "./utils"
+import fs from "fs"
 
 
 
@@ -128,4 +128,12 @@ const parallel = async() => {
 
 }
 
-parallel()
+//parallel()
+
+const getNodeGraph = async() => { 
+  const limit = 500 
+  const graphData = await buildNodeGraph(limit)  
+  fs.writeFileSync('./nodegraph.json', JSON.stringify(graphData))
+}
+
+getNodeGraph()

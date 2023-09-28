@@ -1,6 +1,6 @@
 import { record } from "./interface"
 import axios from "axios"
-import { insertBatch } from "./mongo"
+import { insertBatch, fetchAll } from "./mongo"
 
 export const getInscriptionFields = async(obj: any): Promise<Record<string, any>> => {
     const interestedFields: string[] = [
@@ -61,7 +61,34 @@ export const getInscriptions = async(offset: number): Promise<Record<string, any
     }    
 }
 
+export const buildNodeGraph = async(limit: number) => {
+    const documents = await fetchAll(limit)
 
+    interface Node {
+        id: string;
+        //group: number;
+    }
 
+    interface Link {
+        source: string;
+        target: string;
+    }
 
+    const links: Set<Link> = new Set()
+    const nodes: Set<Node> = new Set()
+    const documentsLen = documents.length
+    for ( let i=0; i < documentsLen; i++) {
+        nodes.add({ id: documents[i].id})
+        for (const recursiveRef of documents[i].recursion_refs) {
+            links.add( { source: documents[i].id, target: recursiveRef})
+            nodes.add({ id: recursiveRef})
+        }
+    }
 
+    const graphNodes = {
+        nodes: Array.from(nodes),
+        links: Array.from(links)
+    }
+    console.log(graphNodes)
+    return graphNodes
+}
