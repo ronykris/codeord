@@ -1,7 +1,9 @@
 import ForceGraph3D,  { ForceGraphMethods } from 'react-force-graph-3d';
-import React, { useCallback, useRef } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import data from './data';
 
 // Random data
+/*
 const N = 3000;
 const gData = {
   nodes: [...Array(N).keys()].map((i) => ({ id: i })),
@@ -11,9 +13,23 @@ const gData = {
       source: id,
       target: Math.round(Math.random() * (id - 1))
     }))
-};
+};*/
+
 
 export default function FocusGraph() {
+
+    /*const [data, setData] = useState([])
+    const [loaded, setLoaded] = useState(false)
+    useEffect(() => {
+        fetch('../public/data/miserables.json').then(res => res.json()).then(sdata => {           
+        console.log(sdata)
+         setData(sdata)
+        })   
+        setTimeout(() => {
+          setLoaded(true)
+        }, 1000);
+      }, [])*/
+
     const graphRef = useRef<ForceGraphMethods>();
     const handleClick = useCallback(
         (node: any) => {
@@ -38,12 +54,12 @@ export default function FocusGraph() {
     return (
         <ForceGraph3D
             ref={graphRef}
-            graphData={gData}
+            graphData={data}
             nodeLabel="id"
-            backgroundColor={"rgba(0,0,0,0)"}
+            //backgroundColor={"rgba(0,0,0,0)"}
             nodeAutoColorBy="group"
-            nodeColor={() => "red"}
-            linkColor={() => "blue"}
+            //nodeColor={() => "red"}
+            //linkColor={() => "blue"}
             onNodeClick={handleClick}
         />
     )
