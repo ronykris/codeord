@@ -49,7 +49,7 @@ export default function FocusGraph() {
                     z: node.z * distRatio
                 },
                 node,
-                1000
+                3000
             );
             }
         },
