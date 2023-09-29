@@ -8,7 +8,7 @@ module.exports = {
         secondary: '#00FF00',
       },
       fontFamily: {
-        sans: ['Roboto', 'Arial', 'sans-serif'],
+        sans: ['Roboto', 'Arial', 'sans-serif', 'inter'],
       },
     },
   },
