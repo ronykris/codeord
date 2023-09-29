@@ -61,3 +61,43 @@ export const fetchAll = async(limit: number) => {
         client.close()
     }
 }
+
+export const fetchBy = async(parameter: string, value: string|any) => {
+    try {
+        await client.connect()
+        const db: Db = client.db(process.env.DB)
+        const collection = db.collection(process.env.COLLECTION!)
+        const query = {[parameter]: value}
+        const documents = await collection.find(query).toArray()
+        return documents
+    } catch (e) { 
+        console.error(e)
+    }   
+}
+
+export const connectToDb = async() => {
+    try {
+        await client.connect()
+        const db: Db = client.db(process.env.DB)
+        const collection = db.collection(process.env.COLLECTION!)
+        return collection
+    } catch (e) {
+        console.error(e)
+    }
+}
+
+export const updateRecord = async(id: string, contentValue: string|any) => {
+    try {
+        const collection = await connectToDb()
+        const filter = { id: id}
+        const update = {
+            $set: {
+                content: contentValue,
+            }
+        }
+        const result = await collection.updateOne(filter, update)        
+        console.log(result)
+    } catch (e) { 
+        console.error(e)
+    }
+}

@@ -1,8 +1,9 @@
 import { ObjectId } from "mongodb"
-import { insertRecord, deleteRecord, insertBatch, fetchAll} from "./mongo"
+import { insertRecord, deleteRecord, insertBatch, fetchAll, fetchBy, updateRecord} from "./mongo"
 import { record } from "./interface"
-import { getInscriptionFields, getInscriptionRecordBatch, getInscriptions, buildNodeGraph } from "./utils"
+import { getInscriptionFields, getInscriptionRecordBatch, getInscriptions, buildNodeGraph, getInscriptionContent } from "./utils"
 import fs from "fs"
+import { text } from "stream/consumers"
 
 
 
@@ -136,4 +137,21 @@ const getNodeGraph = async() => {
   fs.writeFileSync('./nodegraph.json', JSON.stringify(graphData))
 }
 
-getNodeGraph()
+//getNodeGraph()
+
+const getRecordsByContent = async() => {
+  
+  const contentType = ['text/plain', 'image/svg+xml', 'text/html', 'text/javascript', 'text/markdown']
+  for (const content of contentType) {
+    let documents = await fetchBy('mime_type', content)
+    console.log(`Documents of type ${content} : ${documents.length}`)
+    for ( const document of documents) {
+      const contents = await getInscriptionContent(document.id)
+      console.log(document.id)
+      const result = await updateRecord(document.id, contents)
+      console.log(result)      
+    }
+  }
+}
+
+getRecordsByContent()

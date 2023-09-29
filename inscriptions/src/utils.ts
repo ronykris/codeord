@@ -1,6 +1,6 @@
 import { record } from "./interface"
 import axios from "axios"
-import { insertBatch, fetchAll } from "./mongo"
+import { insertBatch, fetchAll, fetchBy } from "./mongo"
 
 export const getInscriptionFields = async(obj: any): Promise<Record<string, any>> => {
     const interestedFields: string[] = [
@@ -91,4 +91,23 @@ export const buildNodeGraph = async(limit: number) => {
     }
     console.log(graphNodes)
     return graphNodes
+}
+
+export const getInscriptionContent = async(id: string) => {
+    let config = {
+        method: 'get',
+        maxBodyLength: Infinity,
+        url: `https://api.hiro.so/ordinals/v1/inscriptions/${id}/content`,
+        headers: { 
+            'Accept': 'application/json'
+        }
+    };
+    try {
+        const response = await axios.request(config)
+        const content = await response.data
+        console.log(content)
+        return content
+    } catch (err) { 
+        console.error(err)
+    }
 }
