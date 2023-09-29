@@ -29,7 +29,7 @@ export default function FocusGraph() {
       //gData = data
     }
     useEffect(() => {   
-      fetchNodes(500)                    
+      fetchNodes(5000)                    
         setTimeout(() => {          
           setLoaded(true)
         }, 1000);
