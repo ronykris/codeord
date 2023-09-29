@@ -1,6 +1,5 @@
-import ForceGraph3D,  { ForceGraphMethods } from 'react-force-graph-3d';
+import ForceGraph3D,  { ForceGraphMethods, GraphData } from 'react-force-graph-3d';
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import data from './data';
 
 // Random data
 /*
@@ -18,17 +17,23 @@ const gData = {
 
 export default function FocusGraph() {
 
-    /*const [data, setData] = useState([])
+    const [data , setData] = useState<GraphData & any>()
     const [loaded, setLoaded] = useState(false)
-    useEffect(() => {
-        fetch('../public/data/miserables.json').then(res => res.json()).then(sdata => {           
-        console.log(sdata)
-         setData(sdata)
-        })   
-        setTimeout(() => {
+
+    const fetchNodes = async(limit: number) => {      
+      const res = await fetch(`/api/getNodeData?limit=${limit}`)
+      const sdata = await res.json()
+      //console.log(sdata)
+      setData(sdata)  
+      //console.log(data)
+      //gData = data
+    }
+    useEffect(() => {   
+      fetchNodes(5000)                    
+        setTimeout(() => {          
           setLoaded(true)
         }, 1000);
-      }, [])*/
+    }, [])
 
     const graphRef = useRef<ForceGraphMethods>();
     const handleClick = useCallback(
@@ -44,7 +49,7 @@ export default function FocusGraph() {
                     z: node.z * distRatio
                 },
                 node,
-                3000
+                1000
             );
             }
         },
@@ -53,6 +58,7 @@ export default function FocusGraph() {
 
     return (
       <>      
+      {loaded && 
         <ForceGraph3D
             ref={graphRef}
             graphData={data}
@@ -60,10 +66,10 @@ export default function FocusGraph() {
             //backgroundColor={"rgba(0,0,0,0)"}
             nodeAutoColorBy="group"
             nodeColor={() => "yellow"}
-            linkColor={() => "white"}   
-            showNavInfo={true}         
+            linkColor={() => "white"}               
             onNodeClick={handleClick}
         />
+      }
         <div className='text-center mt-10'>
           <button className="bg-black text-yellow-500  p-4 rounded-lg w-40 mx-auto text-center text-xl">Load More            
           </button>

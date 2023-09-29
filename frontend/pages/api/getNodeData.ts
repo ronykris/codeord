@@ -54,7 +54,7 @@ export const buildNodeGraph = async(limit: number) => {
   return graphNodes
 }
 
-export default async function buildGraph(req: NextApiRequest, res: NextApiResponse) {  
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {  
   const query = req.query.limit
   try {
     const graphData = await buildNodeGraph(Number(query))  
