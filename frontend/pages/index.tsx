@@ -15,8 +15,8 @@ const Home: NextPage = () => {
       </Head>
 
       <main>
-        <h1 className='text-center text-2xl font-bold'>
-          Welcome to CODE Ord!
+        <h1 className='text-center text-4xl  font-bold p-4'>
+          Welcome to the <span className='text-blue-600 '>Ordverse</span>!
         </h1>
         <FocusGraph />
       </main>
