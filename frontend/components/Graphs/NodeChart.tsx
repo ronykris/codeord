@@ -59,19 +59,21 @@ export default function FocusGraph() {
     return (
       <>      
       {loaded && 
+      <div className='w-full h-full mx-auto overflow-hidden my-4 border border-gray-800 rounded-lg'>
         <ForceGraph3D
             ref={graphRef}
             graphData={data}
-            nodeLabel="id"
-            //backgroundColor={"rgba(0,0,0,0)"}
+            nodeLabel="id"            
+            //backgroundColor={"rgba(0,0,0,0)"}            
             nodeAutoColorBy="group"
             nodeColor={() => "yellow"}
             linkColor={() => "white"}               
             onNodeClick={handleClick}
         />
+      </div>
       }
         <div className='text-center mt-10'>
-          <button className="bg-black text-yellow-500  p-4 rounded-lg w-40 mx-auto text-center text-xl">Load More            
+          <button className="bg-white  text-gray-700  opacity-70  p-4 rounded-lg w-40 mx-auto text-center text-xl">Load More            
           </button>
         </div>
       </>

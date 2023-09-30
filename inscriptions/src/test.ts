@@ -1,5 +1,5 @@
 import { ObjectId } from "mongodb"
-import { insertRecord, deleteRecord, insertBatch, fetchAll, fetchBy, updateRecord} from "./mongo"
+import { insertRecord, deleteRecord, insertBatch, fetchAll, fetchBy, updateRecord, lookup} from "./mongo"
 import { record } from "./interface"
 import { getInscriptionFields, getInscriptionRecordBatch, getInscriptions, buildNodeGraph, getInscriptionContent } from "./utils"
 import fs from "fs"
@@ -22,8 +22,7 @@ const inscription: record = {
 
 
 const inscriptionid = new ObjectId("6515070eca60c2fb32442fc8")
-//deleteRecord(inscriptionid)
-//insertRecord(inscription)
+
 
 const inscriptionObjArray = {
     "limit": 20,
@@ -90,15 +89,14 @@ const inscriptionObjArray = {
       }]
 }
 
-//const data = getInscriptionFields(inscriptionObj)
-//console.log(data)
+
 const main = async() => {
     const dataArray = await getInscriptionRecordBatch(inscriptionObjArray)
     console.log(dataArray)
     const result = await insertBatch(<record[]>dataArray)
     console.log(result)
 }
-//main()
+
 
 const getInscription = async() => {
     let i = 0
@@ -109,7 +107,7 @@ const getInscription = async() => {
         console.log(data)
     }    
 }
-//getInscription()
+
 
 const parallel = async() => {
     const array = [];
@@ -137,9 +135,9 @@ const getNodeGraph = async() => {
   fs.writeFileSync('./nodegraph.json', JSON.stringify(graphData))
 }
 
-//getNodeGraph()
 
-const getRecordsByContent = async() => {
+
+const updateRecordsByContent = async() => {
   
   const contentType = ['text/plain', 'image/svg+xml', 'text/html', 'text/javascript', 'text/markdown']
   for (const content of contentType) {
@@ -154,4 +152,40 @@ const getRecordsByContent = async() => {
   }
 }
 
-getRecordsByContent()
+const getRecordCountByContent = async() => {  
+  const contentType = ['text/csv', 'text/css', 'application/json', 'application/msword, application/rtf']
+  for (const content of contentType) {
+    let documents = await fetchBy('mime_type', content)
+    console.log(`Documents of type ${content} : ${documents.length}`)
+    /*
+    for ( const document of documents) {
+      const contents = await getInscriptionContent(document.id)
+      console.log(document.id)
+      const result = await updateRecord(document.id, contents)
+      console.log(result)      
+    }*/
+  }
+}
+
+
+const getRecordsByContentType = async(contentType: string) => {
+  
+    let documents = await fetchBy('mime_type', contentType)
+    console.log(`Documents of type ${contentType} : ${documents.length}`)
+    for ( const document of documents) {
+      const contents = await getInscriptionContent(document.id)
+      console.log(document.id)
+      const result = await updateRecord(document.id, contents)
+      console.log(result)      
+    }
+  }
+
+  //getRecordsByContentType('model/gltf-binary')
+
+
+
+const find = async(query: string|number) => {
+  const result = await lookup(query)
+  console.log(result)
+}
+

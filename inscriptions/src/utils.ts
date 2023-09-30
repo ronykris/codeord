@@ -111,3 +111,33 @@ export const getInscriptionContent = async(id: string) => {
         console.error(err)
     }
 }
+
+export const buildGraph = async(records) => {
+    interface Node {
+        id: string;
+        //group: number;
+    }
+
+    interface Link {
+        source: string;
+        target: string;
+    }
+
+    const links: Set<Link> = new Set()
+    const nodes: Set<Node> = new Set()
+    const recordsLen = records.length
+    for ( let i=0; i < recordsLen; i++) {
+        nodes.add({ id: records[i].id})
+        for (const recursiveRef of records[i].recursion_refs) {
+            links.add( { source: records[i].id, target: recursiveRef})
+            nodes.add({ id: recursiveRef})
+        }
+    }
+
+    const graphNodes = {
+        nodes: Array.from(nodes),
+        links: Array.from(links)
+    }
+    console.log(graphNodes)
+    return graphNodes
+}

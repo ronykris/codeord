@@ -4,3 +4,4 @@ next-env.d.ts
 dist
 .env
 .vscode
+typesense-data

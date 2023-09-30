@@ -101,3 +101,34 @@ export const updateRecord = async(id: string, contentValue: string|any) => {
         console.error(e)
     }
 }
+
+export const lookup = async(query: string|number) => {
+    try {
+        await client.connect()
+        const db: Db = client.db(process.env.DB)
+        const collection = db.collection(process.env.COLLECTION!)     
+        if (typeof query === 'number') {
+            const result = await collection.find({number : query}).toArray()
+            return result
+        } else {
+            const result = await collection.find({
+                $or: [
+                    {id : { $regex: query, $options: 'i' }},                    
+                    {address : { $regex: query, $options: 'i' }},
+                    {tx_id : { $regex: query, $options: 'i' }},
+                    {sat_ordinal : { $regex: query, $options: 'i' }},
+                    {mime_type : { $regex: query, $options: 'i' }},
+                    {content : { $regex: query, $options: 'i' }}
+                ]
+            }).toArray()
+            return result
+        } 
+            
+    } catch (e) { 
+        console.error(e)
+    } finally {
+        client.close()        
+    }
+}
+
+
