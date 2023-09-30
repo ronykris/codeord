@@ -7,16 +7,46 @@ import SearchResults from '../components/SearchResults/SearchResults'
 import { useState } from 'react'
 //import styles from '../styles/Home.module.css'
 
+interface node {
+  id: string
+}
+interface link {
+  source: string,
+  target: string
+}
+interface record {
+  "_id": Object
+  "id": string,
+  "number": number,
+  "address": string,    
+  "tx_id": string,    
+  "sat_ordinal": string,  
+  "mime_type": string,
+  "content_type": string,    
+  "timestamp": number,  
+  "recursive": boolean,
+  "recursion_refs": string[],
+  "content": string
+}
 
-const Home: NextPage = () => {
+interface ChildProps {
+  graphData: {nodes: node[], links: link[]},
+  searchResults: record[]
+}
+
+const Home: NextPage<ChildProps> = () => {
 
   const[ comp, setComp ] = useState(0)
-  const[ searchData, setSearchData ] = useState({})
-
-  const setComponent = (comp: number, dataObj: any) => {
+  const[ dataObj, setDataObj ] = useState<ChildProps>({
+    graphData: { nodes: [], links: [] },
+    searchResults: [],
+  })
+  
+  const setComponent = (comp: number, dataObj: ChildProps) => {
     setComp(comp)
-    setSearchData(dataObj)
-    console.log(searchData)
+    setDataObj(dataObj)
+    //dataObj = dataObj
+    console.log(dataObj)
     console.log(comp)
   }
   return (
@@ -30,7 +60,7 @@ const Home: NextPage = () => {
       <main>
         <Header />
         <Searchbox getCompData={setComponent}/>
-        {comp === 0 ? <FocusGraph /> : <SearchResults data={searchData}/>}
+        {comp === 0 ? <FocusGraph /> : <SearchResults graphData={dataObj.graphData} searchResults={dataObj.searchResults}/>}
       </main>
     </div>
 

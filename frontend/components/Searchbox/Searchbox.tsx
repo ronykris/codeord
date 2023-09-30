@@ -1,15 +1,43 @@
-import Image from "next/image";
-import {AiOutlineSearch} from "react-icons/ai"
 import React, { use, useState } from "react";
 
-const Searchbox = ({ getCompData }) => {
+interface node {
+  id: string
+}
+interface link {
+  source: string,
+  target: string
+}
+interface record {
+  "_id": Object
+  "id": string,
+  "number": number,
+  "address": string,    
+  "tx_id": string,    
+  "sat_ordinal": string,  
+  "mime_type": string,
+  "content_type": string,    
+  "timestamp": number,  
+  "recursive": boolean,
+  "recursion_refs": string[],
+  "content": string
+}
+
+interface ChildProps {
+  graphData: {nodes: node[], links: link[]},
+  searchResults: record[]
+}
+interface SearchChildProps {
+  getCompData: (comp: number, data: ChildProps) => void
+}
+
+const Searchbox: React.FC<SearchChildProps> = ({ getCompData }) => {
   const [query, setQuery] = useState("")    
   
   const handleSubmit = async(e: any, query:string) => {
     e.preventDefault()
     if(!query.trim()) return
     const response = await fetch(`/api/search?q=${query}`)
-    const data = await response.json()
+    const data: ChildProps = await response.json()
     //console.log(data)    
     if (data.searchResults.length !== 0) {
       getCompData(1, data)
