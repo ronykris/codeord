@@ -72,10 +72,12 @@ export default function FocusGraph() {
         />
       </div>
       }
+       {/*
+
         <div className='text-center mt-10'>
           <button className="bg-white  text-gray-700  opacity-70  p-4 rounded-lg w-40 mx-auto text-center text-xl">Load More            
           </button>
-        </div>
+    </div>*/}
       </>
         
     )
