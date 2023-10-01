@@ -56,6 +56,7 @@ export default function FocusGraph() {
             nodeColor={() => "yellow"}
             linkColor={() => "white"}               
             onNodeClick={handleClick}
+            linkWidth={10}
         />
       </div>
       }

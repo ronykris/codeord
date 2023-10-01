@@ -49,6 +49,7 @@ const ResultsChart: React.FC<ChildGraphData> = ({graphData}) => {
             nodeColor={() => "yellow"}
             linkColor={() => "white"}               
             onNodeClick={handleClick}
+            linkWidth={3}
         />
       </div>
     )
