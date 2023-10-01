@@ -68,7 +68,7 @@ const Searchbox: React.FC<SearchChildProps> = ({ getCompData }) => {
       </div>
   
       <input
-        className="font-bold uppercase rounded-full w-full py-2 pl-4 pr-10 text-gray-700 bg-gray-100 leading-tight focus:outline-none focus:shadow-outline text-sm"
+        className="font-bold font-sans uppercase rounded-full w-full py-2 pl-4 pr-10 text-gray-700 bg-gray-100 leading-tight focus:outline-none focus:shadow-outline text-sm"
         type="text"
         placeholder="Search"
         onChange={(e) => setQuery(e.target.value)}
