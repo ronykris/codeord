@@ -22,10 +22,12 @@ interface InscriptionsProps {
 const Inscriptions: React.FC<InscriptionsProps> = ({searchResults}) => {
     console.log(searchResults)
     return (
-        <div className="grid auto-rows-auto grid-cols-3 gap-12 mx-auto">
-            <ul>
+        //<div className="grid auto-rows-auto grid-cols-3 gap-12 mx-auto">
+          <div className="m-5">
+          <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             { searchResults.map((result, index) => (
                 <li key={index}>
+                    <div className="bg-white rounded shadow p-4">
                     <InscriptionCard 
                         _id={result._id} 
                         id={result.id}
@@ -40,6 +42,7 @@ const Inscriptions: React.FC<InscriptionsProps> = ({searchResults}) => {
                         recursion_refs={result.recursion_refs}
                         content={result.content}
                     />
+                    </div>
                 </li>
             )
                
