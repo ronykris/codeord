@@ -25,19 +25,22 @@ export default function FocusGraph() {
     const graphRef = useRef<ForceGraphMethods>();
     const handleClick = useCallback(
         (node: any) => {
-            const distance = 40;
-            const distRatio = 1 + distance / Math.hypot(node.x, node.y, node.z);
-            if (graphRef.current) {
-                console.log(graphRef.current);
-                graphRef.current.cameraPosition(
-                {
-                    x: node.x * distRatio,
-                    y: node.y * distRatio,
-                    z: node.z * distRatio
-                },
-                node,
-                3000
+          const distance = 40;
+          const distRatio = 1 + distance / Math.hypot(node.x, node.y, node.z);
+          if (graphRef.current) {
+            graphRef.current.cameraPosition(
+              {
+                x: node.x * distRatio,
+                y: node.y * distRatio,
+                z: node.z * distRatio,
+              },
+              node,
+              1000
             );
+      
+            const nodeURL = `https://ordinals.com/inscription/${node.id}`;
+            console.log("Node URL:", nodeURL);
+            window.open(nodeURL, '_blank');
             }
         },
         [graphRef]        

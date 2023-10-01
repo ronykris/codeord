@@ -50,11 +50,11 @@ const Searchbox: React.FC<SearchChildProps> = ({ getCompData }) => {
     <div className="w-2/3 mx-auto">
     <form
       onSubmit={(e) => handleSubmit(e, query)}
-      className="bg-white rounded-full shadow-md p-2 m-2 mb-5 sticky flex items-center justify-between"
+      className="bg-white rounded-full shadow-md p-2 pr-5 m-2 mb-5 sticky flex items-center justify-between"
     >
-      <div className="p-2 mr-2 rounded-full hover:bg-gray-100 cursor-pointer">
+      <div className="p-2 rounded-full hover:bg-gray-100 cursor-pointer">
         <svg
-          className="h-6 w-6 text-gray-500"
+          className="h-6 w-6  text-gray-500"
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 20 20"
           fill="currentColor"
@@ -68,7 +68,7 @@ const Searchbox: React.FC<SearchChildProps> = ({ getCompData }) => {
       </div>
   
       <input
-        className="font-bold font-sans uppercase rounded-full w-full py-2 pl-4 pr-10 text-gray-700 bg-gray-100 leading-tight focus:outline-none focus:shadow-outline text-sm"
+        className="font-sans font-bold uppercase rounded-full w-full py-2 pl-4 pr-10 text-gray-700 leading-tight mr-3 focus:outline-none focus:shadow-outline text-m"
         type="text"
         placeholder="Search"
         onChange={(e) => setQuery(e.target.value)}

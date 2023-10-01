@@ -3,12 +3,17 @@ import Head from 'next/head';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
+interface ContentItem {
+  id: string;
+  textContent: string;
+}
+
 const Home: NextPage = () => {
   const [apiData, setApiData] = useState<any[]>([]);
+  const [contentData, setContentData] = useState<ContentItem[]>([]);
 
   useEffect(() => {
     const apiUrl = 'https://api.hiro.so/ordinals/inscriptions';
-
     const params = {
       recursive: 'true',
       limit: 60,
@@ -19,6 +24,7 @@ const Home: NextPage = () => {
       .then((response) => {
         if (response.status === 200) {
           setApiData(response.data);
+          fetchContent(response.data);
         } else {
           console.error('API request failed with status code:', response.status);
         }
@@ -27,6 +33,28 @@ const Home: NextPage = () => {
         console.error('Error fetching data from the API:', error);
       });
   }, []);
+
+  const fetchContent = (data: any[]) => {
+    const contentPromises = data.map((item) => {
+      if (typeof item === 'object' && item.hasOwnProperty('id')) {
+        const contentUrl = `https://api.hiro.so/ordinals/v1/inscriptions/${item.id}/content`;
+        return axios.get(contentUrl);
+      }
+      return Promise.reject('Invalid data structure');
+    });
+
+    Promise.all(contentPromises)
+      .then((responses) => {
+        const contentData = responses.map((response, index) => ({
+          id: data[index].id,
+          textContent: response.data, // Assuming the content is text
+        }));
+        setContentData(contentData);
+      })
+      .catch((error) => {
+        console.error('Error fetching content data:', error);
+      });
+  };
 
   return (
     <div>
@@ -38,7 +66,13 @@ const Home: NextPage = () => {
 
       <main>
         <h1 className="text-center text-2xl font-bold">API results are below:</h1>
-        <pre>{JSON.stringify(apiData, null, 2)}</pre>
+        <div className="grid grid-cols-1 gap-4">
+          {contentData.map((contentItem) => (
+            <div key={contentItem.id} className="border p-4">
+              <pre>{contentItem.textContent}</pre>
+            </div>
+          ))}
+        </div>
       </main>
     </div>
   );
